@@ -17,6 +17,7 @@ class Queue:
             print(temp.value)
             temp = temp.next
         
+#enqueue is same as append in linkedlist
     def enqueue(self, value):
         new_node = Node(value)
         if self.first is None:
@@ -28,6 +29,7 @@ class Queue:
         self.length += 1
         return True
 
+#dequeue is same as pop_first in linkedlist
     def dequeue(self):
         if self.length == 0:
             return None

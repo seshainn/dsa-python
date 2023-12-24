@@ -15,6 +15,7 @@ class Stack:
         print(temp.value)
         temp = temp.next
 
+#stack push is same as prepend in linkedlist
   def push(self, value):
     new_node = Node(value)
     if self.height == 0:
@@ -25,6 +26,7 @@ class Stack:
     self.height += 1
     return True
 
+#stack pop is same as pop_first in linkedlist
   def pop(self):
     if self.height == 0:
         return None
