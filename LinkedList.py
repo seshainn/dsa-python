@@ -127,6 +127,46 @@ class LinkedList:
         before = temp
         temp = after
 
+# find middle node without using self.length (use fast and slow pointers)
+  def find_middle_node(self):
+    if self.head is None:
+      return None
+    if self.head == self.tail:
+      return self.head
+    slow=self.head
+    fast=self.head
+    while fast.next is not None and fast.next.next is not None:
+      fast=fast.next.next
+      slow=slow.next
+    if fast.next is None:
+      return slow
+    else:
+      return slow.next
+  
+  def has_loop(self):
+    slow = self.head
+    fast = self.head
+    while fast is not None and fast.next is not None:
+      slow = slow.next
+      fast = fast.next.next
+      if slow == fast:
+          return True
+    return False
+
+# find kth node from end without using self.length
+def find_kth_from_end(my_linked_list, k):
+  pointer1=pointer2=my_linked_list.head
+  if k <= 0:
+    return None
+  for i in range(k):
+    if pointer1 is None:
+      return None
+    pointer1=pointer1.next
+  while pointer1 is not None:
+    pointer1=pointer1.next
+    pointer2=pointer2.next
+  return pointer2
+
 my_ll = LinkedList(2)
 print("pop value is ", my_ll.pop())
 my_ll.append(4)
