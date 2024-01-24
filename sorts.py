@@ -10,19 +10,48 @@ def bubble_sort(my_list):
       break
   return my_list
 
+def __r_bubble_sort(my_list, n):
+  swap=False
+  for j in range(n):
+    if my_list[j] > my_list[j+1]:
+        my_list[j], my_list[j+1] = my_list[j+1], my_list[j]
+        swap=True
+  if swap and n > 1:
+    return __r_bubble_sort(my_list, n-1)
+  else:
+     return my_list
+
+def r_bubble_sort(my_list):
+   n = len(my_list) - 1
+   return __r_bubble_sort(my_list, n)
+
 # Selection sort works by repeatedly finding the minimum (or maximum) element from the unsorted portion and swaps it with the element at the beginning of the unsorted list if it is smaller (for ascending order) or larger (for descending order) than the element at the current position.
 def selection_sort(my_list):
   for i in range(len(my_list)-1):
+    min_index = i
     swap=False
-    temp=my_list[i]
-    for j in range(i+1, len(my_list), 1):
-      if my_list[j] < temp:
-        temp=my_list[j]
-        swap_ind=j
+    for j in range(i+1, len(my_list)):
+      if my_list[j] < my_list[min_index]:
         swap=True
+        min_index = j
     if swap:
-      my_list[i], my_list[swap_ind] = my_list[swap_ind], my_list[i]
+      my_list[i], my_list[min_index] = my_list[min_index], my_list[i]
   return my_list
+
+def __r_selection_sort(my_list, i):
+  if i >= len(my_list):
+    return my_list
+  small_index=i
+  swap=False
+  for j in range(i+1, len(my_list)):
+    if my_list[j] < my_list[small_index]:
+      small_index=j
+      swap=True
+  if swap:
+    my_list[i], my_list[small_index] = my_list[small_index], my_list[i]
+  return __r_selection_sort(my_list, i + 1)
+def r_selection_sort(my_list):
+  return __r_selection_sort(my_list, 0)
 
 # start from 2nd element in the list and keep swapping with its left element if it is less than the left element. 
 def insertion_sort(my_list):
@@ -34,6 +63,20 @@ def insertion_sort(my_list):
       my_list[j]=temp
       j -= 1
   return my_list
+
+def __r_insertion_sort(my_list, i):
+  if i >= len(my_list):
+    return my_list
+  j = i - 1
+  temp=my_list[i]
+  while my_list[j] > temp and j >= 0:
+    my_list[j+1] = my_list[j]
+    my_list[j] = temp
+    j -= 1
+  return __r_insertion_sort(my_list, i+1)
+
+def r_insertion_sort(my_list):
+  return __r_insertion_sort(my_list, 1)
 
 # Merge sort divides the unsorted list into smaller sublists until each sublist had a single element, recursively sorts these sublists, and merges them back together in a sorted manner.
 def merge_sort(my_list):
@@ -63,7 +106,7 @@ def merge_sort(my_list):
   right=merge_sort(my_list[mid_index:])
   return merge(left, right)
 
-# Quick sort selects a pivot element, partitions the array into two sub-arrays around the pivot, and recursively sorts the sub-arrays until the entire list is sorted.  
+# Quick sort starts with first element as Pivot and moves it to its proper position while also rearranging remaining elements such that element to left of pivot are smaller than it and elements to right of pivot are larger than it. Now the array is partitioned into two sub-arrays around the pivot, and the two sub arrays are recursively sorted until the entire list is sorted.  
 def quick_sort(my_list):
   def pivot(my_list, pivot_index, end_index):
     swap_index=pivot_index
