@@ -128,6 +128,7 @@ class LinkedList:
         temp = after
 
 # find middle node without using self.length (use fast and slow pointers)
+# THis has to be read until last node only and not until None. Hence the while condition is different from the while condition of has_loop function
   def find_middle_node(self):
     if self.head is None:
       return None
@@ -166,6 +167,15 @@ def find_kth_from_end(my_linked_list, k):
     pointer1=pointer1.next
     pointer2=pointer2.next
   return pointer2
+
+def r_reverse(self):
+  if self.length > 1 and self.head.next is not None:
+    temp=self.pop_first()
+    self.r_reverse()
+    self.tail.next = temp
+    self.tail=temp
+  
+
 
 my_ll = LinkedList(2)
 print("pop value is ", my_ll.pop())
