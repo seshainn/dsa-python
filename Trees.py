@@ -1,3 +1,5 @@
+import queue
+
 class Node:
   def __init__(self, value):
     self.value=value
@@ -102,9 +104,80 @@ class Tree:
 
   def printNodesAtK(self, k):
     return self.r_printNodesAtK(self.root, k)
-    
-    
+
+  def r_isBalanced(self, root):
+    if root == None:
+      return 0, True
+    lh, isLeftBalanced = self.r_isBalanced(root.left)
+    rh, isRightBalanced = self.r_isBalanced(root.right)
+    h = 1 + max(lh, rh)
+    if lh - rh > 1 or rh - lh > 1:
+      return h, False
+    if isLeftBalanced and isRightBalanced:
+      return h, True
+    else:
+      return h, False
+  def isBalanced(self):
+    height, balanced = self.r_isBalanced(self.root)
+    return balanced
   
+  def takeLevelWiseTreeInput():
+    q = queue.Queue()
+    rootData = int(input("Enter root: "))
+    if (rootData == -1):
+      return None
+    root = Node(rootData)
+    q.put(root)
+
+    while (not(q.emtpy())):
+      current_node = q.get()
+      leftChildData = int(input("Enter left child of ", current_node.data))
+      if leftChildData != -1:
+        leftChild = Node(leftChildData)
+        current_node.left = leftChild
+        q.put(leftChild)
+
+      rightChildData = int(input("Enter right child of ", current_node.data))
+      if rightChildData != -1:
+        rightChild = Node(rightChildData)
+        current_node.right = rightChild
+        q.put(rightChild)
+    
+    return root
+  
+  def buildTreeFromPreIn(self, pre, inorder):
+    if len(pre) == 0:
+      return None
+    
+    rootData = pre[0]
+    root = Node(rootData)
+    rootIndexInInorder = -1
+    for i in range(0, len(inorder)):
+      if inorder[i] == rootData:
+        rootIndexInInorder = i
+        break
+    if rootIndexInInorder == -1:
+      return None
+    
+    leftInorder = inorder[:rootIndexInInorder]
+    rightInorder = inorder[rootIndexInInorder+1:]
+
+    lenLeftSubtree = len(leftInorder)
+
+    leftPreorder = pre[1:lenLeftSubtree+1]
+    rightPreorder = pre[lenLeftSubtree+1:]
+
+    leftChild = self.buildTreeFromPreIn(leftPreorder, leftInorder)
+    rightChild = self.buildTreeFromPreIn(rightPreorder, rightInorder)
+
+    root.left = leftChild
+    root.right = rightChild
+
+    return root
+# code a function to find diameter of the tree
+
+
+
 
 t=Tree()  
 t.create_tree()
@@ -117,6 +190,3 @@ print("height of tree: ", t.heightOfTree())
 print("Number of leaf nodes: ", t.numOfLeafNodes())
 print("nodes at depth 2: ", t.printNodesAtK(2))
 
-def printSecondLine():
-  print("second line")
-print("first line", "\n", printSecondLine())

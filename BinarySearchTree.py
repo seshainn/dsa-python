@@ -3,14 +3,13 @@ class Node:
     self.value = value
     self.left = None
     self.right = None
-        
 
 class BinarySearchTree:
   def __init__(self):
     self.root = None
 
   def insert(self, value):
-    new_node=Node(value)
+    new_node = Node(value)
     if self.root == None:
       self.root=new_node
       return True
@@ -63,14 +62,15 @@ class BinarySearchTree:
     return current_node
   
   def r_insert(self, value):
-    if self.root==None:
-        self.root=Node(value)
-    self.__r_insert(self.root, value)
+    self.root=self.__r_insert(self.root, value)
 
-  def min_value(self, current_node):
-    while current_node.left is not None:
-      current_node=current_node.left
-    return current_node.value
+  def min_value(self):
+    if self.root is None:
+      return -1
+    temp = self.root
+    while temp.left is not None:
+      temp = temp.left
+    return temp.value
   
   def __delete_node(self, current_node, value):
     if current_node == None:
@@ -118,6 +118,25 @@ class BinarySearchTree:
         queue.append(current_node.right)
     return results
 
+# To check if a binary tree is binary search tree: return min, max and isBST from left subtree, return min, max adn isBST from right subtree, set isBST to True if root > maxOfLST and root < minOfRST
+  def r_isBST(self, root):
+    if root is None:
+      return float('inf'), float('-inf'), True
+    
+    leftMin, leftMax, leftIsBST = self.r_isBST(root.left)
+    rightMin, rightMax, rightIsBST = self.r_isBST(root.right)
+
+    if leftIsBST and rightIsBST and root.value > leftMax and root.value < rightMin:
+      return min(leftMin, root.value), max(rightMax, root.value), True
+    else:
+      return float('-inf'), float('inf'), False
+
+  def isBST(self):
+    if self.root is None:
+      return True
+    treeMin, treeMax, isBinarySearchTree = self.r_isBST(self.root)
+    return isBinarySearchTree
+
 bst=BinarySearchTree()
 bst.r_insert(5)
 bst.r_insert(20)
@@ -127,6 +146,8 @@ bst.r_insert(15)
 bst.r_insert(25)
 bst.r_inorder_traversal()
 print(" ")
+print(bst.isBST())
+
 print(bst.r_contains(5))
 print(bst.r_contains(17))
 bst.r_delete_node(5)

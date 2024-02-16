@@ -13,7 +13,8 @@ class Heap:
   
   def swap(self, index1, index2):
     self.HeapList[index1], self.HeapList[index2] = self.HeapList[index2], self.HeapList[index1]
-  
+
+# Always insert new element at the end and keep swapping with parent if it is larger (for max heap)
   def insert(self, value):
     self.HeapList.append(value)
     current = len(self.HeapList) - 1

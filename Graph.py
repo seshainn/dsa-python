@@ -3,12 +3,8 @@ class Graph:
     self.adj_list = {}
 
   def print_graph(self):
-    v_list = []
-    for vertex in self.adj_list:
-        v_list.append(vertex)
-    v_list.sort()
-    for v in v_list:
-        print(v, ':', self.adj_list[v])
+    for key, value in self.adj_list.items():
+        print(key,':', value)
 
   def add_vertex(self, vertex):
     if vertex not in self.adj_list.keys():
@@ -40,3 +36,27 @@ class Graph:
         del self.adj_list[vertex]
         return True
     return False
+  
+  def dfs_traversal(self, start_vertex, visited=None):
+     if visited is None:
+        visited=set()
+     if start_vertex not in self.adj_list:
+        return
+     visited.add(start_vertex)
+     print(start_vertex, end=" ")     
+     for vertex in self.adj_list[start_vertex]:
+        if vertex not in visited:
+          self.dfs_traversal(vertex, visited)
+  
+g = Graph()
+g.add_vertex(7)
+g.add_vertex(9)
+g.add_vertex(4)
+g.add_vertex(2)
+g.add_edge(7,9)
+g.add_edge(9,4)
+g.add_edge(9,2)
+g.add_edge(4,2)
+g.print_graph()
+g.dfs_traversal(7)
+  
