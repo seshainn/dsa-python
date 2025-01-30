@@ -64,6 +64,15 @@ def insertion_sort(my_list):
       j -= 1
   return my_list
 
+def insertion_sort2(my_list):
+  for i in range(len(my_list)-1):
+    j = i+1
+    while j > 0 and my_list[j] < my_list[j-1]:
+      my_list[j], my_list[j-1] = my_list[j-1], my_list[j]
+      j -= 1
+  return my_list
+
+
 def __r_insertion_sort(my_list, i):
   if i >= len(my_list):
     return my_list
@@ -107,23 +116,22 @@ def merge_sort(my_list):
   return merge(left, right)
 
 # Quick sort starts with first element as Pivot and moves it to its proper position while also rearranging remaining elements such that element to left of pivot are smaller than it and elements to right of pivot are larger than it. Now the array is partitioned into two sub-arrays around the pivot, and the two sub arrays are recursively sorted until the entire list is sorted.  
+def pivot(my_list, pivot_index, end_index):
+  swap_index=pivot_index
+  for i in range(pivot_index+1, end_index+1):
+    if my_list[i] < my_list[pivot_index]:
+      swap_index += 1
+      my_list[swap_index], my_list[i] = my_list[i], my_list[swap_index]
+  my_list[swap_index], my_list[pivot_index] = my_list[pivot_index], my_list[swap_index]
+  return swap_index
+  
+def quick_sort_helper(my_list, left, right):
+  if left < right:
+    pivot_index = pivot(my_list, left, right)
+    quick_sort_helper(my_list, left, pivot_index - 1)
+    quick_sort_helper(my_list, pivot_index+1, right)
+  return my_list
 def quick_sort(my_list):
-  def pivot(my_list, pivot_index, end_index):
-    swap_index=pivot_index
-    for i in range(pivot_index+1, end_index+1):
-      if my_list[i] < my_list[pivot_index]:
-        swap_index += 1
-        my_list[swap_index], my_list[i] = my_list[i], my_list[swap_index]
-    my_list[swap_index], my_list[pivot_index] = my_list[pivot_index], my_list[swap_index]
-    return swap_index
-  
-  def quick_sort_helper(my_list, left, right):
-    if left < right:
-      pivot_index = pivot(my_list, left, right)
-      quick_sort_helper(my_list, left, pivot_index - 1)
-      quick_sort_helper(my_list, pivot_index+1, right)
-    return my_list
-  
   return quick_sort_helper(my_list, 0, len(my_list)-1)
 
 #print(bubble_sort([2, 9, 7, 4, 8, 5, 1, 0, 3, 6]))
@@ -131,3 +139,12 @@ def quick_sort(my_list):
 #print(insertion_sort([2, 9, 7, 4, 8, 5, 1, 0, 3, 6]))
 #print(merge_sort([2, 9, 7, 4, 8, 5, 1, 0, 3, 6]))
 print(quick_sort([2, 9, 7, 4, 8, 5, 1, 0, 3, 6]))
+
+def in_quick_sort(arr):
+  if len(arr) <= 1:
+    return arr
+  pivot = arr[len(arr)//2]
+  left = [x for x in arr if x < pivot]
+  right = [x for x in arr if x > pivot]
+  center = [x for x in arr if x == pivot]
+  return in_quick_sort(left)+center+in_quick_sort(right)

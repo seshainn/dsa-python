@@ -116,9 +116,23 @@ def retAllSubsets(arr, index=0, current_subset=[]):
 
 all_subsets = retAllSubsets([5,4,9])
 print(all_subsets)
+# for [5,4,9]:
+# iter 1: 5, [] (include+exclude element at index 0)
+# iter 2: 5,4; 5; 4; [] (include + exclude element at index 1 for each of iter 1)
+# iter 3: 5,4,9; 5,4; 5,9; 5; 4,9; 4; 9; [] (include + exclude element at index 2 for each of iter 2)
 
+def retAllSubsetsSumK(arr, k, index=0, current_subset=[]):
+    if index == len(arr):
+        if sum(current_subset) == k:
+          return [current_subset]
+        else:
+          return []
 
+    include_current = retAllSubsetsSumK(arr, k, index + 1, current_subset + [arr[index]])
+    exclude_current = retAllSubsetsSumK(arr, k, index + 1, current_subset)
 
+    return include_current + exclude_current
+print(retAllSubsetsSumK([1,2,3,4,5,6], 6))
 #list_to_reverse=[7,4,2,9,8,1,3]
 #reverse_list(list_to_reverse)
 #print(list_to_reverse)
@@ -130,3 +144,99 @@ print(all_subsets)
 #printNto1(20)
 #print(" ")
 #print1toN(20)
+
+def getPermutations(my_str):
+  def r_getPerm(start, end):
+    if start == end:
+      permutations.append("".join(arr))
+      return
+    for i in range(start, end):
+      arr[start], arr[i] = arr[i], arr[start]
+      r_getPerm(start+1, end)
+      arr[start], arr[i] = arr[i], arr[start]
+    
+    
+  arr = list(my_str)
+  permutations = []
+  r_getPerm(0, len(arr))
+  return permutations
+
+print(getPermutations("abcd"))
+
+
+# iter 1: swap first with first and then swap others resulting in abc & acb
+# iter 2: swap first with second and then swap others resulting in bac & bca
+# iter 3: swap first with third and then swap others resulting cba & cab 
+def get_permutations2(my_str):
+  if len(my_str) == 0:
+    return []
+  if len(my_str) == 1:
+    return [my_str]
+  permutations = []
+  for i in range(len(my_str)):
+    rem_str = my_str[:i] + my_str[i+1:]
+    for item in get_permutations2(rem_str):
+      permutations.append(my_str[i]+item)
+  
+  return permutations
+
+def combinations(arr, n):
+  if n == 0:
+    return [[]]
+  if len(arr) < n:
+    return []
+  return combinations(arr[1:], n) + [[arr[0]] + combo for combo in combinations(arr[1:], n-1)]
+print(combinations(['a', 'b', 'c', 'd'], 3))
+
+def getSubSequences(my_str):
+  def retAllSubsets(arr, index=0, current_subset=""):
+    if index == len(arr):
+      return [current_subset]
+    include_current = retAllSubsets(arr, index + 1, current_subset+(arr[index]))
+    exclude_current = retAllSubsets(arr, index + 1, current_subset)
+    return include_current + exclude_current
+  arr = list(my_str)
+  all_subsets = retAllSubsets(arr)
+  return all_subsets
+
+print(getSubSequences("sehu"))
+
+def get_string(d):
+  if d == 2:
+    return 'abc'
+  elif d == 3:
+    return 'def'
+  elif d == 4:
+    return 'ghi'
+  elif d == 5:
+    return 'jkl'
+  elif d == 6:
+    return 'mno'
+  elif d == 7:
+    return 'pqrs'
+  elif d == 8:
+    return 'tuv'
+  elif d == 9:
+    return 'wxyz'
+  else:
+    return ' '
+def keypad_combinations(n):
+  if n == 0:
+    output = []
+    output.append("")
+    return output
+  
+  smallNumber = n//10
+  lastDigit = n % 10
+
+  smallerOutput = keypad_combinations(smallNumber)
+  stringForLastDigit = get_string(lastDigit)
+
+  output = []
+
+  for s in smallerOutput:
+    for c in stringForLastDigit:
+      output.append(s+c)
+  return output
+
+print(keypad_combinations(23))

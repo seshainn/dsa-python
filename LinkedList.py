@@ -174,8 +174,6 @@ def r_reverse(self):
     self.r_reverse()
     self.tail.next = temp
     self.tail=temp
-  
-
 
 my_ll = LinkedList(2)
 print("pop value is ", my_ll.pop())
@@ -187,5 +185,5 @@ my_ll.print_list()
 print("value at index 2 is ", my_ll.get(2).value)
 my_ll.set(2, 9)
 my_ll.print_list()
-my_ll.reverse()
+my_ll.r_reverse()
 my_ll.print_list()
