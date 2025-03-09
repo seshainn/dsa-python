@@ -145,6 +145,9 @@ print(retAllSubsetsSumK([1,2,3,4,5,6], 6))
 #print(" ")
 #print1toN(20)
 
+# iter 1: swap first with first and then swap others resulting in abc & acb
+# iter 2: swap first with second and then swap others resulting in bac & bca
+# iter 3: swap first with third and then swap others resulting cba & cab 
 def getPermutations(my_str):
   def r_getPerm(start, end):
     if start == end:
@@ -164,9 +167,7 @@ def getPermutations(my_str):
 print(getPermutations("abcd"))
 
 
-# iter 1: swap first with first and then swap others resulting in abc & acb
-# iter 2: swap first with second and then swap others resulting in bac & bca
-# iter 3: swap first with third and then swap others resulting cba & cab 
+
 def get_permutations2(my_str):
   if len(my_str) == 0:
     return []
