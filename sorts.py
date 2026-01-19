@@ -57,11 +57,11 @@ def r_selection_sort(my_list):
 def insertion_sort(my_list):
   for i in range(1, len(my_list)):
     temp=my_list[i]
-    j=i-1
-    while temp < my_list[j] and j >= 0:
-      my_list[j+1]=my_list[j]
-      my_list[j]=temp
+    j=i
+    while j > 0 and my_list[j-1] > temp:
+      my_list[j]=my_list[j-1]
       j -= 1
+    arr[j] = temp
   return my_list
 
 def insertion_sort2(my_list):
